@@ -1,4 +1,10 @@
 import { useState } from 'react';
+// Firebase関連の機能をインポート
+import { auth } from '../firebase';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import {
   Box,
   TextField,
@@ -9,21 +15,30 @@ import {
 
 // 認証フォームのコンポーネント
 const Auth = () => {
-  // ログインモードか登録モードかを切り替えるための状態
   const [isLogin, setIsLogin] = useState(true);
-
-  // 入力されたメールアドレスとパスワードを保持するための状態
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // ログイン処理（今はまだ空）
-  const handleLogin = () => {
-    console.log('ログインしようとしています:', { email, password });
+  // ログイン処理
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      alert('ログインに成功しました！');
+    } catch (error) {
+      alert('ログインに失敗しました。メールアドレスまたはパスワードを確認してください。');
+      console.error(error);
+    }
   };
 
-  // ユーザー登録処理（今はまだ空）
-  const handleSignUp = () => {
-    console.log('ユーザー登録しようとしています:', { email, password });
+  // ユーザー登録処理
+  const handleSignUp = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      alert('ユーザー登録に成功しました！');
+    } catch (error) {
+      alert('ユーザー登録に失敗しました。このメールアドレスは既に使用されている可能性があります。');
+      console.error(error);
+    }
   };
 
   return (
@@ -78,7 +93,9 @@ const Auth = () => {
             fullWidth
             onClick={() => setIsLogin(!isLogin)}
           >
-            {isLogin ? 'アカウントをお持ちでないですか？ 新規登録' : 'すでにアカウントをお持ちですか？ ログイン'}
+            {isLogin
+              ? 'アカウントをお持ちでないですか？ 新規登録'
+              : 'すでにアカウントをお持ちですか？ ログイン'}
           </Button>
         </Box>
       </Box>
