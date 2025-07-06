@@ -165,7 +165,6 @@ const TaskList = () => {
           <Button variant="outlined" onClick={handleLogout}>ログアウト</Button>
         </Box>
 
-        /* タスク追加 */
         <Box sx={{ display: 'flex', gap: 2, mt: 2, mb: 4, alignItems: 'center' }}>
           <TextField
             label="タスク名" value={newTaskTitle} onChange={(e) => setNewTaskTitle(e.target.value)} sx={{ flex: 2 }}
