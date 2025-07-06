@@ -1,54 +1,39 @@
-# React + TypeScript + Vite
+## 制作背景  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+就職活動が本格化する中で、自身の課題である「タスク管理の課題」に着目しました。  
+一般的なカレンダーアプリでタスク管理を行なっていましたが、日々増え続ける企業ごとの選考ステップ、提出書類の締め切り、面接の日程など、多くの情報を一元的に管理することがとても困難に感じていました。  
+この課題を解決するために、そして学習中のTypeScriptを実践する目的も兼ねて、制作しました。
+今回のアプリケーション開発目的は、就活特有の情報の整理、進捗管理の効率化、自身の学習目的です。  
+今後の課題としては、機能数が全体的に少ないことやスマホ画面用のレイアウトが対応していないことなどです。
 
-Currently, two official plugins are available:
+## 技術スタック
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### フロントエンド
+・ React  
+今回は短期間での開発を想定していたため、効率的かつ拡張性の高いアプリケーションを作成するために採用しました。  
 
-## Expanding the ESLint configuration
+・ TypeScript  
+本制作がTypeScriptの学習を兼ねていた為、経験を積む目的で採用しました。
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+・ Vite  
+・ Material-UI  
+開発環境の効率化のため、採用しました。
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### バックエンド
+・ Firebase Authentication  
+・ Firestore  
+実装方法が比較的簡単で、機能追加などにも柔軟に対応できる為、採用しました。
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### コード管理
+・ Git/GitHub  
+開発中のコードを管理し、デプロイをスムーズに行う為に採用しました。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### デプロイ
+・ Vercel  
+開発したアプリケーションを手軽に公開し、実際の環境で確認できるようにする為に採用しました。  
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## メイン画面
+<img width="1125" src="https://github.com/user-attachments/assets/09c46f5e-709d-4b26-a932-fc765ba0ced9" />
+
+## APPURL
+[https://jobhunt-app-one.vercel.app/]
