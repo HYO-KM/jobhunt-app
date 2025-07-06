@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import {
   Button, Typography, Box, TextField, List, ListItem, ListItemText, IconButton, Checkbox,
   Select, MenuItem, FormControl, InputLabel,
-  // ▼▼▼ モーダル用に以下を追加 ▼▼▼
+  // モーダル用に以下を追加
   Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-// ▼▼▼ 編集アイコンを追加 ▼▼▼
+// 編集アイコンを追加
 import EditIcon from '@mui/icons-material/Edit';
 import { auth, db } from '../firebase';
 import { signOut } from 'firebase/auth';
@@ -37,7 +37,7 @@ const TaskList = () => {
   const [newCompanyName, setNewCompanyName] = useState('');
   const [newStatus, setNewStatus] = useState('未着手');
 
-  // ▼▼▼ 編集モーダル用のStateを追加 ▼▼▼
+  // 編集モーダル用のStateを追加
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [editTitle, setEditTitle] = useState('');
@@ -45,10 +45,10 @@ const TaskList = () => {
   const [editCompanyName, setEditCompanyName] = useState('');
   const [editStatus, setEditStatus] = useState('未着手');
 
-  // ▼▼▼ 並び替え用のStateを追加 ▼▼▼
+  // 並び替え用のStateを追加
   const [sortOrder, setSortOrder] = useState('createdAt_desc');
 
-  // --- 関数定義 ---
+  // 関数定義 
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -95,7 +95,7 @@ const TaskList = () => {
     }
   };
 
-  // ▼▼▼ 編集モーダルを開く処理を追加 ▼▼▼
+  // 編集モーダルを開く処理を追加
   const handleOpenModal = (task: Task) => {
     setEditingTask(task);
     setEditTitle(task.title);
@@ -105,13 +105,13 @@ const TaskList = () => {
     setIsModalOpen(true);
   };
 
-  // ▼▼▼ 編集モーダルを閉じる処理を追加 ▼▼▼
+  // 編集モーダルを閉じる処理を追加
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingTask(null);
   };
 
-  // ▼▼▼ タスクを更新する処理を追加 ▼▼▼
+  // タスクを更新する処理を追加
   const handleUpdateTask = async () => {
     if (!editingTask) return;
     const user = auth.currentUser;
@@ -157,7 +157,6 @@ const TaskList = () => {
   }, [sortOrder]); // sortOrderが変更された時に再実行
 
 
-  // --- JSX（見た目部分） ---
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={{ mt: 4, mx: 'auto', maxWidth: '800px', p: 2 }}>
@@ -166,7 +165,7 @@ const TaskList = () => {
           <Button variant="outlined" onClick={handleLogout}>ログアウト</Button>
         </Box>
 
-        {/* タスク追加フォーム */}
+        /* タスク追加 */
         <Box sx={{ display: 'flex', gap: 2, mt: 2, mb: 4, alignItems: 'center' }}>
           <TextField
             label="タスク名" value={newTaskTitle} onChange={(e) => setNewTaskTitle(e.target.value)} sx={{ flex: 2 }}
@@ -192,7 +191,7 @@ const TaskList = () => {
         </Box>
 
 
-        {/* ▼▼▼ 並び替えメニューを追加 ▼▼▼ */}
+        {/* 並び替え */}
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
           <FormControl sx={{ minWidth: 200 }}>
             <InputLabel>並び替え</InputLabel>
@@ -218,7 +217,7 @@ const TaskList = () => {
               sx={{ bgcolor: 'background.paper', mb: 1, border: '1px solid #ddd', borderRadius: '4px' }}
               secondaryAction={
                 <>
-                  {/* ▼▼▼ 編集ボタンを追加 ▼▼▼ */}
+                  {/* 編集ボタン */}
                   <IconButton edge="end" aria-label="edit" onClick={() => handleOpenModal(task)}>
                     <EditIcon />
                   </IconButton>
@@ -240,7 +239,7 @@ const TaskList = () => {
           ))}
         </List>
 
-        {/* ▼▼▼ 編集モーダルの定義を追加 ▼▼▼ */}
+        {/* 編集モーダルの定義を追加 */}
         <Dialog open={isModalOpen} onClose={handleCloseModal} fullWidth maxWidth="sm">
           <DialogTitle>タスクを編集</DialogTitle>
           <DialogContent>
