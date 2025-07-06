@@ -9,29 +9,29 @@
 ## 技術スタック
 
 ### フロントエンド
-・ React  
+・ React  
 今回は短期間での開発を想定していたため、効率的かつ拡張性の高いアプリケーションを作成するために採用しました。  
 
-・ TypeScript  
+・ TypeScript  
 本制作がTypeScriptの学習を兼ねていた為、経験を積む目的で採用しました。
 
-・ Vite  
+・ Vite  
 開発環境の効率化のため、採用しました。  
 
-・ Material-UI  
+・ Material-UI  
 統一感のある見た目を素早く実現する為、採用しました。
 
 ### バックエンド
-・ Firebase Authentication  
-・ Firestore  
+・ Firebase Authentication  
+・ Firestore  
 実装方法が比較的簡単で、機能追加などにも柔軟に対応できる為、採用しました。
 
 ### コード管理
-・ Git/GitHub  
+・ Git/GitHub  
 開発中のコードを管理し、デプロイをスムーズに行う為に採用しました。
 
 ### デプロイ
-・ Vercel  
+・ Vercel  
 開発したアプリケーションを手軽に公開し、実際の環境で確認できるようにする為に採用しました。  
 
 ## メイン画面
