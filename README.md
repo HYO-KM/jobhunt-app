@@ -37,5 +37,10 @@
 ## メイン画面
 <img width="1125" src="https://github.com/user-attachments/assets/09c46f5e-709d-4b26-a932-fc765ba0ced9" />
 
+## 編集画面  
+<img width="1125" src="https://github.com/user-attachments/assets/15a702a8-decf-4a64-8baa-246da87918db" />
+
+
+
 ## APPURL
 [https://jobhunt-app-one.vercel.app/]
