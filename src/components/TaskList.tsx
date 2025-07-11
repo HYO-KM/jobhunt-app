@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import {
   Button, Typography, Box, TextField, List, ListItem, ListItemText, IconButton, Checkbox,
   Select, MenuItem, FormControl, InputLabel,
-  // モーダル用に以下を追加
   Dialog, DialogActions, DialogContent, DialogTitle,
+  Grid,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 // 編集アイコンを追加
@@ -29,8 +29,9 @@ interface Task {
 }
 
 const TaskList = () => {
-  // --- State定義 ---
+  // State定義
   const [tasks, setTasks] = useState<Task[]>([]);
+
   // 新規追加フォーム用のState
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newDeadline, setNewDeadline] = useState<Dayjs | null>(null);
@@ -57,6 +58,7 @@ const TaskList = () => {
     }
   };
 
+  // タスク追加
   const handleAddTask = async () => {
     if (newTaskTitle.trim() === '') return;
     const user = auth.currentUser;
@@ -76,8 +78,8 @@ const TaskList = () => {
     }
   };
 
+  // タスク削除
   const handleDeleteTask = async (id: string) => {
-    // window.confirmで確認ダイアログを表示
     if (window.confirm('本当にこのタスクを削除しますか？')) {
       const user = auth.currentUser;
       if (user) {
@@ -86,6 +88,7 @@ const TaskList = () => {
     }
   };
 
+  // タスクトグル
   const handleToggleComplete = async (task: Task) => {
     const user = auth.currentUser;
     if (user) {
@@ -95,7 +98,7 @@ const TaskList = () => {
     }
   };
 
-  // 編集モーダルを開く処理を追加
+  // 編集モーダルを開く処理
   const handleOpenModal = (task: Task) => {
     setEditingTask(task);
     setEditTitle(task.title);
@@ -105,13 +108,13 @@ const TaskList = () => {
     setIsModalOpen(true);
   };
 
-  // 編集モーダルを閉じる処理を追加
+  // 編集モーダルを閉じる処理
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingTask(null);
   };
 
-  // タスクを更新する処理を追加
+  // タスクを更新する処理
   const handleUpdateTask = async () => {
     if (!editingTask) return;
     const user = auth.currentUser;
@@ -159,34 +162,43 @@ const TaskList = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box sx={{ mt: 4, mx: 'auto', maxWidth: '800px', p: 2 }}>
+      <Box sx={{ mt: 4, mx: 'auto', maxWidth: '1000px', p: { xs: 1, md: 3} }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Typography variant="h4">タスク管理</Typography>
           <Button variant="outlined" onClick={handleLogout}>ログアウト</Button>
         </Box>
 
-        <Box sx={{ display: 'flex', gap: 2, mt: 2, mb: 4, alignItems: 'center' }}>
-          <TextField
-            label="タスク名" value={newTaskTitle} onChange={(e) => setNewTaskTitle(e.target.value)} sx={{ flex: 2 }}
-          />
-          <TextField
-            label="企業名" value={newCompanyName} onChange={(e) => setNewCompanyName(e.target.value)} sx={{ flex: 1 }}
-          />
-          <FormControl sx={{ flex: 1 }}>
-            <InputLabel>ステータス</InputLabel>
-            <Select value={newStatus} label="ステータス" onChange={(e) => setNewStatus(e.target.value)}>
-              <MenuItem value="未着手">未着手</MenuItem>
-              <MenuItem value="進行中">進行中</MenuItem>
-              <MenuItem value="完了">完了</MenuItem>
-            </Select>
-          </FormControl>
-          <DatePicker
-            label="締切日" 
-            value={newDeadline} 
-            onChange={(newValue) => setNewDeadline(newValue)}
-            format="YYYY/MM/DD"
-          />
-          <Button variant="contained" onClick={handleAddTask}>追加</Button>
+        <Box sx={{ mt: 2, mb: 4 }}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField fullWidth label="タスク名" value={newTaskTitle} onChange={(e) => setNewTaskTitle(e.target.value)} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={2}>
+              <TextField fullWidth label="企業名" value={newCompanyName} onChange={(e) => setNewCompanyName(e.target.value)} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={2}>
+              <FormControl fullWidth>
+                <InputLabel>ステータス</InputLabel>
+                <Select value={newStatus} label="ステータス" onChange={(e) => setNewStatus(e.target.value)}>
+                  <MenuItem value="未着手">未着手</MenuItem>
+                  <MenuItem value="進行中">進行中</MenuItem>
+                  <MenuItem value="完了">完了</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <DatePicker
+                sx={{ width: '100%' }}
+                label="締切日"
+                value={newDeadline}
+                onChange={(newValue) => setNewDeadline(newValue)}
+                format="YYYY/MM/DD"
+              />
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <Button fullWidth variant="contained" onClick={handleAddTask} sx={{ height: '56px' }}>追加</Button>
+            </Grid>
+          </Grid>
         </Box>
 
 
