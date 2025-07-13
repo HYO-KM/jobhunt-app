@@ -33,7 +33,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {user ? <AppLayout /> : <Auth />}
+      {user ? <AppLayout user={user} /> : <Auth />}
     </BrowserRouter>
   );
 }

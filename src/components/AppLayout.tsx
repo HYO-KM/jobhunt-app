@@ -4,13 +4,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import TaskIcon from '@mui/icons-material/ListAlt';
 import NoteIcon from '@mui/icons-material/NoteAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Outlet, Link as RouterLink } from 'react-router-dom';
+import { Outlet, Route, Link as RouterLink, Routes } from 'react-router-dom';
 import { auth } from '../firebase';
-import { signOut } from 'firebase/auth';
+import { signOut, type User } from 'firebase/auth';
+import TaskList from './TaskList';
 
 const drawerWidth = 240; // ドロワーの幅
 
-const AppLayout = () => {
+const AppLayout = ({ user }: { user: User }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -122,7 +123,11 @@ const AppLayout = () => {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <Outlet /> {/* ここに各ページコンポーネントが表示される */}
+        <Routes>
+            <Route index element={<TaskList user={user} />} />
+            {/* <Route path="notes" element={<CompanyNotes user={user} />} />
+            <Route path="notes/:companyName" element={<NoteEditor user={user} />} /> */}
+        </Routes>
       </Box>
     </Box>
   );
