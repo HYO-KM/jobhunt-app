@@ -4,7 +4,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import TaskIcon from '@mui/icons-material/ListAlt';
 import NoteIcon from '@mui/icons-material/NoteAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Outlet, Route, Link as RouterLink, Routes } from 'react-router-dom';
+import { Route, Link as RouterLink, Routes } from 'react-router-dom';
 import { auth } from '../firebase';
 import { signOut, type User } from 'firebase/auth';
 import TaskList from './TaskList';
