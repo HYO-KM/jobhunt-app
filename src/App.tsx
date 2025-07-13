@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import { auth } from './firebase';
 import { onAuthStateChanged, type User } from 'firebase/auth';
 import Auth from './components/Auth';
-import TaskList from './components/TaskList';
+import AppLayout from './components/AppLayout';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   // ログインしているユーザーの情報を保持するための状態
   // ユーザーがいればUserオブジェクトが、いなければnullが入る
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // 認証状態の監視を開始する副作用フック
   useEffect(() => {
@@ -16,6 +18,7 @@ function App() {
     // ユーザーがログインするとuserオブジェクトが、ログアウトするとnullが返ってくる
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
 
     // コンポーネントが不要になった時にリスナーを解除するクリーンアップ処理
@@ -24,11 +27,14 @@ function App() {
     };
   }, []); // 空の配列を渡すことで、最初のレンダリング時に一度だけ実行される
 
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
-    <div className="App">
-      {/* userが存在すればTaskListを、存在しなければAuthコンポーネントを表示 */}
-      {user ? <TaskList /> : <Auth />}
-    </div>
+    <BrowserRouter>
+      {user ? <AppLayout /> : <Auth />}
+    </BrowserRouter>
   );
 }
 

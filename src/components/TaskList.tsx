@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-  Button, Typography, Box, TextField, List, ListItem, ListItemText, IconButton, Checkbox,
+  Button, Box, TextField, List, ListItem, ListItemText, IconButton, Checkbox,
   Select, MenuItem, FormControl, InputLabel,
   Dialog, DialogActions, DialogContent, DialogTitle,
   Grid,
@@ -9,7 +9,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // 編集アイコンを追加
 import EditIcon from '@mui/icons-material/Edit';
 import { auth, db } from '../firebase';
-import { signOut } from 'firebase/auth';
 import {
   collection, addDoc, query, onSnapshot, doc, deleteDoc, updateDoc, serverTimestamp, orderBy,
 } from 'firebase/firestore';
@@ -48,15 +47,6 @@ const TaskList = () => {
 
   // 並び替え用のStateを追加
   const [sortOrder, setSortOrder] = useState('createdAt_desc');
-
-  // 関数定義 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error('ログアウトに失敗しました', error);
-    }
-  };
 
   // タスク追加
   const handleAddTask = async () => {
@@ -163,12 +153,8 @@ const TaskList = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box sx={{ mt: 4, mx: 'auto', maxWidth: '1000px', p: { xs: 1, md: 3} }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h4">タスク管理</Typography>
-          <Button variant="outlined" onClick={handleLogout}>ログアウト</Button>
-        </Box>
 
-        <Box sx={{ mt: 2, mb: 4 }}>
+        <Box sx={{ mb: 4 }}>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} sm={6} md={3}>
               <TextField fullWidth label="タスク名" value={newTaskTitle} onChange={(e) => setNewTaskTitle(e.target.value)} />
