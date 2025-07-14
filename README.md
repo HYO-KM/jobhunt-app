@@ -36,7 +36,9 @@
 開発したアプリケーションを手軽に公開し、実際の環境で確認できるようにする為に採用しました。  
 
 ## メイン画面
-<img width="1125" src="https://github.com/user-attachments/assets/09c46f5e-709d-4b26-a932-fc765ba0ced9" />
+<img width="1172" src="https://github.com/user-attachments/assets/d251deb3-2a4d-45aa-a86c-45182034a7de" />
+
+
 
 ## 編集画面  
 <img width="1125" src="https://github.com/user-attachments/assets/15a702a8-decf-4a64-8baa-246da87918db" />
