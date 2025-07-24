@@ -1,39 +1,44 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { auth } from './firebase';
 import { onAuthStateChanged, type User } from 'firebase/auth';
-import Auth from './components/Auth';
+
 import AppLayout from './components/AppLayout';
+import TaskList from './components/TaskList';
+// import CompanyNotes from './components/CompanyNotes';
+// import NoteEditor from './components/NoteEditor';
+import Auth from './components/Auth';
 import './App.css';
-import { BrowserRouter } from 'react-router-dom';
 
 function App() {
-  // ログインしているユーザーの情報を保持するための状態
-  // ユーザーがいればUserオブジェクトが、いなければnullが入る
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // 認証状態の監視を開始する副作用フック
   useEffect(() => {
-    // onAuthStateChangedはログイン状態の変化を監視するリスナー
-    // ユーザーがログインするとuserオブジェクトが、ログアウトするとnullが返ってくる
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
-
-    // コンポーネントが不要になった時にリスナーを解除するクリーンアップ処理
-    return () => {
-      unsubscribe();
-    };
-  }, []); // 空の配列を渡すことで、最初のレンダリング時に一度だけ実行される
+    return () => unsubscribe();
+  }, []);
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
     <BrowserRouter>
-      {user ? <AppLayout user={user} /> : <Auth />}
+      <Routes>
+        {user ? (
+          <Route path="/" element={<AppLayout user={user} />}>
+            <Route index element={<TaskList />} />
+            {/* <Route path="notes" element={<CompanyNotes />} />
+            <Route path="notes/:companyName" element={<NoteEditor />} /> */}
+          </Route>
+        ) : (
+          <Route path="*" element={<Auth />} />
+        )}
+      </Routes>
     </BrowserRouter>
   );
 }
