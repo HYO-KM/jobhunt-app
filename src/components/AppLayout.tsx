@@ -72,6 +72,8 @@ const AppLayout = ({ user }: { user: User }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">就活タスク管理</Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Typography variant="body2">{user.email}</Typography>
         </Toolbar>
       </AppBar>
       <Box

@@ -9,6 +9,8 @@ import TaskList from './components/TaskList';
 // import NoteEditor from './components/NoteEditor';
 import Auth from './components/Auth';
 import './App.css';
+import CompanyNotes from './components/CompanyNotes';
+import NoteEditor from './components/NoteEditor';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -32,8 +34,8 @@ function App() {
         {user ? (
           <Route path="/" element={<AppLayout user={user} />}>
             <Route index element={<TaskList />} />
-            {/* <Route path="notes" element={<CompanyNotes />} />
-            <Route path="notes/:companyName" element={<NoteEditor />} /> */}
+             <Route path="notes" element={<CompanyNotes />} />
+            <Route path="notes/:companyName" element={<NoteEditor />} />
           </Route>
         ) : (
           <Route path="*" element={<Auth />} />
