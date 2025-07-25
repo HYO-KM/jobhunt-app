@@ -53,7 +53,7 @@ const CompanyNotes = () => {
         企業メモ
       </Typography>
 
-      <Paper sx={{ p: 1, mb: 1.5 }}> {/* ▼▼▼ 修正箇所 */}
+      <Paper sx={{ p: 1, mb: 1.5 }}>
         <TextField
           fullWidth
           label="企業名で検索"
