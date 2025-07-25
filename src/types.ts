@@ -8,6 +8,7 @@ export interface Task {
   deadline: string | null;
   companyName: string;
   status: string;
+  color: string;
 }
 
 // 新規タスク用の型（IDとcreatedAtは除く）
@@ -16,6 +17,7 @@ export interface NewTask {
   companyName: string;
   status: string;
   deadline: Dayjs | null;
+  color: string;
 }
 
 // 更新タスク用の型
@@ -24,4 +26,5 @@ export interface UpdateTaskData {
   companyName: string;
   status: string;
   deadline: Dayjs | null;
+  color: string;
 }

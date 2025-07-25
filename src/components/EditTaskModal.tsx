@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle, Box } from '@mui/material';
+import { Button, TextField, Select, MenuItem, FormControl, InputLabel, Dialog, DialogActions, DialogContent, DialogTitle, Box, Typography, Paper } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import type { Task, UpdateTaskData } from '../types';
+import { taskColors } from '../theme'; 
 
 interface EditTaskModalProps {
   open: boolean;
@@ -16,6 +17,7 @@ const EditTaskModal = ({ open, onClose, task, onUpdate }: EditTaskModalProps) =>
   const [deadline, setDeadline] = useState<Dayjs | null>(null);
   const [companyName, setCompanyName] = useState('');
   const [status, setStatus] = useState('未着手');
+  const [color, setColor] = useState(taskColors[0].bgColor);
 
   useEffect(() => {
     if (task) {
@@ -23,12 +25,13 @@ const EditTaskModal = ({ open, onClose, task, onUpdate }: EditTaskModalProps) =>
       setCompanyName(task.companyName);
       setStatus(task.status);
       setDeadline(task.deadline ? dayjs(task.deadline) : null);
+      setColor(task.color || taskColors[0].bgColor);
     }
   }, [task]);
 
   const handleUpdate = () => {
     if (task) {
-      onUpdate(task.id, { title, companyName, status, deadline });
+      onUpdate(task.id, { title, companyName, status, deadline, color });
       onClose();
     }
   };
@@ -49,6 +52,21 @@ const EditTaskModal = ({ open, onClose, task, onUpdate }: EditTaskModalProps) =>
             </Select>
           </FormControl>
           <DatePicker label="締切日" value={deadline} onChange={setDeadline} format="YYYY/MM/DD" />
+          <Box>
+            <Typography variant="caption" color="text.secondary">カラー</Typography>
+            <Box sx={{ display: 'flex', gap: 1, mt: 0.5 }}>
+              {taskColors.map((c) => (
+                <Paper
+                  key={c.name}
+                  onClick={() => setColor(c.bgColor)}
+                  sx={{
+                    width: 24, height: 24, borderRadius: '50%', backgroundColor: c.bgColor,
+                    cursor: 'pointer', border: color === c.bgColor ? '2px solid #1976d2' : '1px solid #ddd',
+                  }}
+                />
+              ))}
+            </Box>
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>

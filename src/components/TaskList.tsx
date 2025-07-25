@@ -13,19 +13,20 @@ import { type Task } from '../types';
 import TaskForm from './TaskForm';
 import EditTaskModal from './EditTaskModal';
 import ConfirmationDialog from './ConfirmationDialog';
-
+import { taskColors } from '../theme';
 
 const TaskList = () => {
   const { user } = useOutletContext<{ user: User }>();
   const [sortOrder, setSortOrder] = useState('createdAt_desc');
   const { tasks, addTask, updateTask, deleteTask, toggleComplete } = useTasks(user, sortOrder);
 
+  // UIの状態管理
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
-
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
 
+  // UI操作のハンドラ
   const handleOpenModal = (task: Task) => {
     setEditingTask(task);
     setIsModalOpen(true);
@@ -37,16 +38,16 @@ const TaskList = () => {
   };
 
   const handleDeleteClick = (taskId: string) => {
-    setTaskToDelete(taskId); // どのタスクを削除するかIDを保持
-    setConfirmOpen(true);    // ダイアログを開く
+    setTaskToDelete(taskId);
+    setConfirmOpen(true);
   };
 
   const handleConfirmDelete = () => {
     if (taskToDelete) {
-      deleteTask(taskToDelete); // useTasksフックのdeleteTaskを実行
+      deleteTask(taskToDelete);
     }
-    setConfirmOpen(false); // ダイアログを閉じる
-    setTaskToDelete(null); // 保持していたIDをクリア
+    setConfirmOpen(false);
+    setTaskToDelete(null);
   };
 
   return (
@@ -65,23 +66,42 @@ const TaskList = () => {
       </Box>
 
       <List>
-        {tasks.map((task) => (
-          <ListItem key={task.id} sx={{ bgcolor: 'background.paper', mb: 1, border: '1px solid #ddd', borderRadius: '4px' }}
-            secondaryAction={
-              <>
-                <IconButton onClick={() => handleOpenModal(task)}><EditIcon /></IconButton>
-                <IconButton onClick={() => handleDeleteClick(task.id)}><DeleteIcon /></IconButton>
-              </>
-            }
-          >
-            <Checkbox checked={task.completed} onChange={() => toggleComplete(task)} />
-            <ListItemText
-              primary={`${task.title} (${task.companyName || '指定なし'})`}
-              secondary={`ステータス: ${task.status} | 締切: ${task.deadline ? dayjs(task.deadline).format('YYYY/MM/DD') : 'なし'}`}
-              sx={{ textDecoration: task.completed ? 'line-through' : 'none' }}
-            />
-          </ListItem>
-        ))}
+        {tasks.map((task) => {
+          const selectedColor = taskColors.find(c => c.bgColor === task.color) || taskColors[0];
+
+          return (
+            <ListItem
+              key={task.id}
+              sx={{
+                backgroundColor: selectedColor.bgColor,
+                color: selectedColor.textColor,
+                mb: 1,
+                border: '1px solid #ddd',
+                borderRadius: '4px'
+              }}
+              secondaryAction={
+                <>
+                  <IconButton onClick={() => handleOpenModal(task)}><EditIcon /></IconButton>
+                  <IconButton onClick={() => handleDeleteClick(task.id)}><DeleteIcon /></IconButton>
+                </>
+              }
+            >
+              <Checkbox
+                checked={task.completed}
+                onChange={() => toggleComplete(task)}
+                sx={{ color: 'inherit', '&.Mui-checked': { color: 'inherit' } }}
+              />
+              <ListItemText
+                primary={`${task.title} (${task.companyName || '指定なし'})`}
+                secondary={`ステータス: ${task.status} | 締切: ${task.deadline ? dayjs(task.deadline).format('YYYY/MM/DD') : 'なし'}`}
+                sx={{
+                  textDecoration: task.completed ? 'line-through' : 'none',
+                  '& .MuiListItemText-secondary': { color: 'inherit', opacity: 0.8 }
+                }}
+              />
+            </ListItem>
+          );
+        })}
       </List>
 
       <EditTaskModal

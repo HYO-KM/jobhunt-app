@@ -39,6 +39,7 @@ export const useTasks = (user: User, sortOrder: string) => {
     await addDoc(collection(db, 'tasks', user.uid, 'userTasks'), {
       ...newTask,
       deadline: newTask.deadline ? newTask.deadline.toISOString() : null,
+      color: newTask.color,
       completed: false,
       createdAt: serverTimestamp(),
     });
@@ -49,6 +50,7 @@ export const useTasks = (user: User, sortOrder: string) => {
     const taskDocRef = doc(db, 'tasks', user.uid, 'userTasks', taskId);
     await updateDoc(taskDocRef, {
       ...dataToUpdate,
+      color: dataToUpdate.color,
       deadline: dataToUpdate.deadline ? dataToUpdate.deadline.toISOString() : null,
     });
   };
