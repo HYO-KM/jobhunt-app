@@ -4,15 +4,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import TaskIcon from '@mui/icons-material/ListAlt';
 import NoteIcon from '@mui/icons-material/NoteAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { useTheme } from '@mui/material/styles';
 import { Outlet, Link as RouterLink, useLocation } from 'react-router-dom';
 import { auth} from '../firebase';
-import { signOut, type User } from 'firebase/auth';
+import { signOut, type User  } from 'firebase/auth';
+import { useColorMode } from '../context/ThemeContext';
 
 const drawerWidth = 240;
 
 const AppLayout = ({ user }: { user: User }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const theme = useTheme();
+  const colorMode = useColorMode();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -52,6 +58,15 @@ const AppLayout = ({ user }: { user: User }) => {
             <ListItemText primary="ログアウト" />
           </ListItemButton>
         </ListItem>
+        {/* ▼▼▼ ダークモード切り替えボタンをここに追加 ▼▼▼ */}
+        <ListItem disablePadding>
+          <ListItemButton onClick={colorMode.toggleColorMode}>
+            <ListItemIcon>
+              {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+            </ListItemIcon>
+            <ListItemText primary="モード切替" />
+          </ListItemButton>
+        </ListItem>
       </List>
     </div>
   );
@@ -60,7 +75,10 @@ const AppLayout = ({ user }: { user: User }) => {
     <Box sx={{ display: 'flex' }}>
       <AppBar
         position="fixed"
-        sx={{ width: { sm: `calc(100% - ${drawerWidth}px)` }, ml: { sm: `${drawerWidth}px` } }}
+        sx={{
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+        }}
       >
         <Toolbar>
           <IconButton
@@ -71,9 +89,12 @@ const AppLayout = ({ user }: { user: User }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">就活タスク管理</Typography>
+          <Typography variant="h6" noWrap component="div">
+            就活タスク管理
+          </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Typography variant="body2">{user.email}</Typography>
+          {/* ▼▼▼ ヘッダーにあった切り替えボタンは削除 ▼▼▼ */}
         </Toolbar>
       </AppBar>
       <Box

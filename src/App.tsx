@@ -11,6 +11,7 @@ import Auth from './components/Auth';
 import './App.css';
 import CompanyNotes from './components/CompanyNotes';
 import NoteEditor from './components/NoteEditor';
+import { CustomThemeProvider } from './context/ThemeContext';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -29,19 +30,21 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {user ? (
-          <Route path="/" element={<AppLayout user={user} />}>
-            <Route index element={<TaskList />} />
-             <Route path="notes" element={<CompanyNotes />} />
-            <Route path="notes/:companyName" element={<NoteEditor />} />
-          </Route>
-        ) : (
-          <Route path="*" element={<Auth />} />
-        )}
-      </Routes>
-    </BrowserRouter>
+    <CustomThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          {user ? (
+            <Route path="/" element={<AppLayout user={user} />}>
+              <Route index element={<TaskList />} />
+              <Route path="notes" element={<CompanyNotes />} />
+              <Route path="notes/:companyName" element={<NoteEditor />} />
+            </Route>
+          ) : (
+            <Route path="*" element={<Auth />} />
+          )}
+        </Routes>
+      </BrowserRouter>
+    </CustomThemeProvider>
   );
 }
 
