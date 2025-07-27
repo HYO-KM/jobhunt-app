@@ -58,7 +58,6 @@ const AppLayout = ({ user }: { user: User }) => {
             <ListItemText primary="ログアウト" />
           </ListItemButton>
         </ListItem>
-        {/* ▼▼▼ ダークモード切り替えボタンをここに追加 ▼▼▼ */}
         <ListItem disablePadding>
           <ListItemButton onClick={colorMode.toggleColorMode}>
             <ListItemIcon>
@@ -94,7 +93,6 @@ const AppLayout = ({ user }: { user: User }) => {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Typography variant="body2">{user.email}</Typography>
-          {/* ▼▼▼ ヘッダーにあった切り替えボタンは削除 ▼▼▼ */}
         </Toolbar>
       </AppBar>
       <Box
