@@ -35,13 +35,16 @@
 ・ Vercel  
 開発したアプリケーションを手軽に公開し、実際の環境で確認できるようにする為に採用しました。  
 
-## メイン画面
-<img width="1172" src="https://github.com/user-attachments/assets/d251deb3-2a4d-45aa-a86c-45182034a7de" />
+## タスク管理機能
+<img width="1194" height="819" src="https://github.com/user-attachments/assets/85bcdb28-518d-411e-bd56-0b9e0f49463b" />
 
 
+## 企業メモ機能  
+<img width="1188" height="460" src="https://github.com/user-attachments/assets/62a6f963-c04f-458a-bfcc-2aea33a05aa9" />
 
-## 編集画面  
-<img width="1125" src="https://github.com/user-attachments/assets/15a702a8-decf-4a64-8baa-246da87918db" />
+### 入力欄
+<img width="1185" height="725" src="https://github.com/user-attachments/assets/88bc2f5a-4cfa-45c6-834a-f19b8464754f" />
+
 
 
 
