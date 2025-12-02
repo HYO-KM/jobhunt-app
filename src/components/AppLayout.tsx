@@ -6,22 +6,33 @@ import NoteIcon from '@mui/icons-material/NoteAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+// ▼▼▼ アイコンを追加 ▼▼▼
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+
 import { useTheme } from '@mui/material/styles';
 import { Outlet, Link as RouterLink, useLocation } from 'react-router-dom';
-import { auth} from '../firebase';
-import { signOut, type User  } from 'firebase/auth';
+import { auth } from '../firebase';
+import { signOut, type User } from 'firebase/auth';
 import { useColorMode } from '../context/ThemeContext';
 
 const drawerWidth = 240;
 
 const AppLayout = ({ user }: { user: User }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isDesktopOpen, setIsDesktopOpen] = useState(true);
+  
   const location = useLocation();
   const theme = useTheme();
   const colorMode = useColorMode();
 
+  // スマホ用ドロワーの切り替え
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleDesktopDrawerToggle = () => {
+    setIsDesktopOpen(!isDesktopOpen);
   };
 
   const handleLogout = async () => {
@@ -75,11 +86,16 @@ const AppLayout = ({ user }: { user: User }) => {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: { sm: isDesktopOpen ? `calc(100% - ${drawerWidth}px)` : '100%' },
+          ml: { sm: isDesktopOpen ? `${drawerWidth}px` : 0 },
+          transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
         }}
       >
         <Toolbar>
+          {/* スマホ用ハンバーガーメニュー */}
           <IconButton
             color="inherit"
             edge="start"
@@ -88,6 +104,16 @@ const AppLayout = ({ user }: { user: User }) => {
           >
             <MenuIcon />
           </IconButton>
+
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={handleDesktopDrawerToggle}
+            sx={{ mr: 2, display: { xs: 'none', sm: 'block' } }}
+          >
+            {isDesktopOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          </IconButton>
+
           <Typography variant="h6" noWrap component="div">
             就活タスク管理
           </Typography>
@@ -95,10 +121,12 @@ const AppLayout = ({ user }: { user: User }) => {
           <Typography variant="body2">{user.email}</Typography>
         </Toolbar>
       </AppBar>
+
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
       >
+        {/* スマホ用のドロワー（変更なし） */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -108,17 +136,34 @@ const AppLayout = ({ user }: { user: User }) => {
         >
           {drawer}
         </Drawer>
+
         <Drawer
-          variant="permanent"
-          sx={{ display: { xs: 'none', sm: 'block' }, '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth } }}
-          open
+          variant="persistent" // ここを変更
+          anchor="left"
+          open={isDesktopOpen} // 開閉状態を紐付け
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          }}
         >
           {drawer}
         </Drawer>
       </Box>
+
+      {/* メインコンテンツエリア */}
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          // ▼▼▼ サイドバーが開いている時だけ幅と余白を調整 ▼▼▼
+          width: { sm: isDesktopOpen ? `calc(100% - ${drawerWidth}px)` : '100%' },
+          ml: { sm: isDesktopOpen ? 0 : `-${drawerWidth}px` }, // persistentの場合はマージン調整が必要
+          transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+          }),
+        }}
       >
         <Toolbar />
         <Outlet context={{ user }} />
