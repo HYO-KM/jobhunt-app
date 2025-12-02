@@ -6,7 +6,6 @@ import NoteIcon from '@mui/icons-material/NoteAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-// ▼▼▼ アイコンを追加 ▼▼▼
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
@@ -138,9 +137,9 @@ const AppLayout = ({ user }: { user: User }) => {
         </Drawer>
 
         <Drawer
-          variant="persistent" // ここを変更
+          variant="persistent"
           anchor="left"
-          open={isDesktopOpen} // 開閉状態を紐付け
+          open={isDesktopOpen}
           sx={{
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
@@ -156,9 +155,8 @@ const AppLayout = ({ user }: { user: User }) => {
         sx={{
           flexGrow: 1,
           p: 3,
-          // ▼▼▼ サイドバーが開いている時だけ幅と余白を調整 ▼▼▼
           width: { sm: isDesktopOpen ? `calc(100% - ${drawerWidth}px)` : '100%' },
-          ml: { sm: isDesktopOpen ? 0 : `-${drawerWidth}px` }, // persistentの場合はマージン調整が必要
+          ml: { sm: isDesktopOpen ? 0 : `-${drawerWidth}px` },
           transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
