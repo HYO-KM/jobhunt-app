@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, List, ListItem, ListItemText, IconButton, Checkbox, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { Box, List, ListItem, ListItemText, IconButton, Checkbox, Select, MenuItem, FormControl, InputLabel, useTheme } from '@mui/material'; // useThemeを追加
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { useOutletContext } from 'react-router-dom';
@@ -17,16 +17,17 @@ import { taskColors } from '../theme';
 
 const TaskList = () => {
   const { user } = useOutletContext<{ user: User }>();
+  const theme = useTheme();
+  const isDarkMode = theme.palette.mode === 'dark';
+
   const [sortOrder, setSortOrder] = useState('createdAt_desc');
   const { tasks, addTask, updateTask, deleteTask, toggleComplete } = useTasks(user, sortOrder);
 
-  // UIの状態管理
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<string | null>(null);
 
-  // UI操作のハンドラ
   const handleOpenModal = (task: Task) => {
     setEditingTask(task);
     setIsModalOpen(true);
@@ -67,22 +68,29 @@ const TaskList = () => {
 
       <List>
         {tasks.map((task) => {
-          const selectedColor = taskColors.find(c => c.bgColor === task.color) || taskColors[0];
+          const colorSet = taskColors.find(c => c.bgColor === task.color) || taskColors[0];
+
+          const currentBgColor = isDarkMode ? colorSet.darkBgColor : colorSet.bgColor;
+          const currentTextColor = isDarkMode ? colorSet.darkTextColor : colorSet.textColor;
 
           return (
             <ListItem
               key={task.id}
               sx={{
-                backgroundColor: selectedColor.bgColor,
-                color: selectedColor.textColor,
+                backgroundColor: currentBgColor, 
+                color: currentTextColor,         
                 mb: 1,
-                border: '1px solid #ddd',
+                border: isDarkMode ? '1px solid #555' : '1px solid #ddd', // 枠線もダークモード対応
                 borderRadius: '4px'
               }}
               secondaryAction={
                 <>
-                  <IconButton onClick={() => handleOpenModal(task)}><EditIcon /></IconButton>
-                  <IconButton onClick={() => handleDeleteClick(task.id)}><DeleteIcon /></IconButton>
+                  <IconButton onClick={() => handleOpenModal(task)} sx={{ color: 'inherit' }}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => handleDeleteClick(task.id)} sx={{ color: 'inherit' }}>
+                    <DeleteIcon />
+                  </IconButton>
                 </>
               }
             >
@@ -96,7 +104,10 @@ const TaskList = () => {
                 secondary={`ステータス: ${task.status} | 締切: ${task.deadline ? dayjs(task.deadline).format('YYYY/MM/DD') : 'なし'}`}
                 sx={{
                   textDecoration: task.completed ? 'line-through' : 'none',
-                  '& .MuiListItemText-secondary': { color: 'inherit', opacity: 0.8 }
+                  '& .MuiListItemText-secondary': {
+                    color: 'inherit',
+                    opacity: 0.8
+                  }
                 }}
               />
             </ListItem>

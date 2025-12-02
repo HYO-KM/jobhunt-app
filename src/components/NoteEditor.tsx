@@ -37,7 +37,6 @@ const NoteEditor = () => {
         content: note,
         updatedAt: serverTimestamp(),
       }, { merge: true });
-      alert('メモを保存しました');
       navigate('/notes');
     }
   };
