@@ -50,7 +50,7 @@
 [https://jobhunt-app-one.vercel.app/]
 
 お試し用アカウント
-mail: test@example.com
+mail: test@example.com  
 pass: testtest
 
 ぜひ使ってみてください！
