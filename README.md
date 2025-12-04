@@ -49,7 +49,7 @@
 ## APPURL
 [https://jobhunt-app-one.vercel.app/]
 
-お試し用アカウント
+お試し用アカウント  
 mail: test@example.com  
 pass: testtest
 
